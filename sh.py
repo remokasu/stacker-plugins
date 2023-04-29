@@ -1,6 +1,9 @@
+
+import getpass
 import subprocess
 from pathlib import Path
 
+import pexpect
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.history import FileHistory
@@ -11,14 +14,18 @@ history_file_path = Path.home() / history_file
 
 # List of allowed commands
 ALLOWED_COMMANDS = [
-    'ls', 'll', 'l', 'pwd', 'echo', 'cd', 'mkdir', 'rmdir',
-    'touch', 'rm', 'cp', 'mv', 'cat', 'head',
-    'tail', 'less', 'grep', 'find', 'df', 'du',
-    'ps', 'top', 'htop', 'uname', 'uptime', 'free',
-    'who', 'id', 'chmod', 'chown', 'man', 'ping',
-    'traceroute', 'nslookup', 'dig', 'curl', 'wget',
-    'history', 'clear', 'date', 'cal', 'kill',
-    'ssh', 'scp', 'git', 'tar', 'ifconfig', 'ip', 'nmap'
+    'ls', 'll', 'l', 'pwd', 'echo', 'cd', 'mkdir',
+    'rmdir', 'touch', 'rm', 'cp', 'mv', 'cat',
+    'head', 'tail', 'less', 'grep', 'find', 'df',
+    'du', 'ps', 'top', 'htop', 'free', 'chmod',
+    'chown', 'ping', 'traceroute', 'nslookup',
+    'dig', 'curl', 'wget', 'history', 'clear',
+    'date', 'cal', 'kill', 'ssh', 'scp', 'tar',
+    'ifconfig', 'ip', 'nmap', 'vi', 'vim', 'sudo'
+]
+
+INTERACTIVE_COMMANDS = [
+    'vi', 'vim', 'top', 'htop', 'ssh'
 ]
 
 STACKERSH_SH_COMMAND = [
@@ -27,10 +34,34 @@ STACKERSH_SH_COMMAND = [
 ]
 
 
-def run_shell_command(command):
+def run_shell_command(command, password=None):
     try:
-        result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        if 'sudo' in command.split():
+            result = subprocess.run(
+                command,
+                shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                stdin=subprocess.PIPE,
+                text=True,
+                input=password + '\n')
+        else:
+            result = subprocess.run(
+                command,
+                shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True)
         return result.stdout.strip() if result.returncode == 0 else result.stderr.strip()
+    except Exception as e:
+        return str(e)
+
+
+def run_interactive_command(command):
+    try:
+        child = pexpect.spawn(command)
+        child.interact()
+        child.close()
     except Exception as e:
         return str(e)
 
@@ -57,7 +88,13 @@ def shell_mode():
         if len(command) > 0:
             command_name = command.split()[0]
             if command_name in ALLOWED_COMMANDS:
-                print(run_shell_command(command))
+                if 'sudo' in command.split():
+                    password = getpass.getpass("Enter sudo password: ")
+                    print(run_shell_command(command, password))
+                elif command_name in INTERACTIVE_COMMANDS:
+                    print(run_interactive_command(command))
+                else:
+                    print(run_shell_command(command))
             else:
                 print(f"Error: '{command_name}' is not allowed.")
     print("Exiting shell mode.")
