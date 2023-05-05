@@ -14,7 +14,7 @@ history_file_path = Path.home() / history_file
 
 # List of allowed commands
 ALLOWED_COMMANDS = [
-    'ls', 'll', 'l', 'pwd', 'echo', 'cd', 'mkdir',
+    'ls', 'pwd', 'echo', 'cd', 'mkdir',
     'rmdir', 'touch', 'rm', 'cp', 'mv', 'cat',
     'head', 'tail', 'less', 'grep', 'find', 'df',
     'du', 'ps', 'top', 'htop', 'free', 'chmod',
@@ -101,4 +101,4 @@ def shell_mode():
 
 
 def setup(stacker_core):
-    stacker_core.register_plugin("sh", shell_mode)
+    stacker_core.register_plugin("shellmode", shell_mode)

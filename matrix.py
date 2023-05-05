@@ -21,7 +21,7 @@ def matrix_add(a, b):
     elif not is_matrix_or_vector(a) and not is_matrix_or_vector(b):
         return a + b
     else:
-        raise ValueError("Both operands must be matrices (or vectors) for matrix multiplication.")
+        raise ValueError("Both operands must be matrices (or vectors) for matrix addition.")
 
 
 def matrix_sub(a, b):
@@ -30,7 +30,7 @@ def matrix_sub(a, b):
     elif not is_matrix_or_vector(a) and not is_matrix_or_vector(b):
         return a - b
     else:
-        raise ValueError("Both operands must be matrices (or vectors) for matrix multiplication.")
+        raise ValueError("Both operands must be matrices (or vectors) for matrix subtraction.")
 
 
 def matrix_mul(a, b):
@@ -73,6 +73,36 @@ def matrix_rank(a):
 def matrix_trace(a):
     return np.trace(a)
 
+
+def ones(rows, cols):
+    return np.ones((rows, cols)).tolist()
+
+
+def zeros(rows, cols):
+    return np.zeros((rows, cols)).tolist()
+
+
+def diag(a):
+    if is_matrix(a):
+        return np.diag(a).tolist()
+    elif isinstance(a, list) and all(isinstance(elem, (int, float)) for elem in a):
+        return np.diag(a).tolist()
+    else:
+        raise ValueError("Input must be a matrix or a list of numbers.")
+
+
+def ndim(a) -> int:
+    return np.ndim(a)
+
+
+def size(a) -> int:
+    return np.ndim(a)
+
+
+def shape(a) -> tuple:
+    return np.shape(a)
+
+
 def setup(stacker_core):
     stacker_core.register_plugin("+", matrix_add, description_en=description_en)
     stacker_core.register_plugin("-", matrix_sub, description_en=description_en)
@@ -85,3 +115,9 @@ def setup(stacker_core):
     stacker_core.register_plugin("det", matrix_determinant, description_en=description_en)
     stacker_core.register_plugin("rank", matrix_rank, description_en=description_en)
     stacker_core.register_plugin("trace", matrix_trace, description_en=description_en)
+    stacker_core.register_plugin("ones", ones, description_en=description_en)
+    stacker_core.register_plugin("zeros", zeros, description_en=description_en)
+    stacker_core.register_plugin("diag", diag, description_en=description_en)
+    stacker_core.register_plugin("ndim", ndim, description_en=description_en)
+    stacker_core.register_plugin("size", size, description_en=description_en)
+    stacker_core.register_plugin("shape", shape, description_en=description_en)
