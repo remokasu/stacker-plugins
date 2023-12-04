@@ -1,25 +1,29 @@
+from __future__ import annotations
 
-def tolist(stacker_core, start, end):
-    sublist = stacker_core.stack[start:end]
-    new_stack = (stacker_core.stack[:start] + [sublist] + stacker_core.stack[end:])
-    stacker_core.stack = new_stack
+from stacker.stacker import Stacker
 
 
-def unlist(stacker_core, index: int) -> None:
-    if not stacker_core.stack:
+def tolist(stacker, start, end):
+    sublist = stacker.stack[start:end]
+    new_stack = (stacker.stack[:start] + [sublist] + stacker.stack[end:])
+    stacker.stack = new_stack
+
+
+def unlist(stacker, index: int) -> None:
+    if not stacker.stack:
         raise ValueError("Stack is empty")
-    if index < 0 or index >= len(stacker_core.stack):
+    if index < 0 or index >= len(stacker.stack):
         raise IndexError("Invalid index")
 
-    target = stacker_core.stack[index]
+    target = stacker.stack[index]
     if not isinstance(target, list):
         raise TypeError("Target element is not a list")
 
-    stacker_core.stack = stacker_core.stack[:index] + target + stacker_core.stack[index + 1 :]
+    stacker.stack = stacker.stack[:index] + target + stacker.stack[index + 1 :]
 
 
-def setup(stacker_core):
-    stacker_core.register_plugin(
+def setup(stacker: Stacker):
+    stacker.register_plugin(
         "tolist",
         tolist,
         push_result_to_stack=False,
@@ -27,7 +31,7 @@ def setup(stacker_core):
         description_en="Convert a specified range within the stack into a single list element",
         description_jp="スタック内の指定された範囲を1つのリスト要素に変換する",
     )
-    stacker_core.register_plugin(
+    stacker.register_plugin(
         operator_name="unlist",
         operator_func=unlist,
         push_result_to_stack=False,

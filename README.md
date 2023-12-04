@@ -1,5 +1,12 @@
 ### This is a [Stacker](https://github.com/remokasu/stacker) plugin.
 
+~~~ bash
+git clone git@github.com:remokasu/stacker-plugins.git
+cd stacker-plugins
+stacker
+~~~
+
+
 ### Contents
 * `set_colot.py` change output color
 * `sh.py` shell mode

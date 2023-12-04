@@ -1,3 +1,4 @@
+from __future__ import annotations
 
 import getpass
 import subprocess
@@ -7,6 +8,8 @@ import pexpect
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.history import FileHistory
+
+from stacker.stacker import Stacker
 
 history_file = ".stacker_sh_history"
 history_file_path = Path.home() / history_file
@@ -100,5 +103,5 @@ def shell_mode():
     print("Exiting shell mode.")
 
 
-def setup(stacker_core):
-    stacker_core.register_plugin("shellmode", shell_mode)
+def setup(stacker: Stacker):
+    stacker.register_plugin("shellmode", shell_mode)

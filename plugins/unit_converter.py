@@ -1,3 +1,8 @@
+from __future__ import annotations
+
+from stacker.stacker import Stacker
+
+
 # Dictionary for unit conversions
 CONVERSIONS = {
     # Length
@@ -123,6 +128,6 @@ def convert_unit(value, input_unit, output_unit):
     return result
 
 
-def setup(stacker_core):
-    stacker_core.register_plugin("cu", convert_unit)
+def setup(stacker: Stacker):
+    stacker.register_plugin("cu", convert_unit)
     # cu: convert unit
