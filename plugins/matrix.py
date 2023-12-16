@@ -109,20 +109,20 @@ def shape(a) -> tuple:
 
 
 def setup(stacker: Stacker):
-    stacker.register_plugin("+", matrix_add, description_en=description_en)
-    stacker.register_plugin("-", matrix_sub, description_en=description_en)
-    stacker.register_plugin("*", matrix_mul, description_en=description_en)
-    stacker.register_plugin(".*", elementwise_mul, description_en=description_en)
-    stacker.register_plugin("./", elementwise_div, description_en=description_en)
-    stacker.register_plugin(".\\", elementwise_div_inv, description_en=description_en)
-    stacker.register_plugin("'", matrix_transpose, description_en=description_en)
-    stacker.register_plugin("inv", matrix_inverse, description_en=description_en)
-    stacker.register_plugin("det", matrix_determinant, description_en=description_en)
-    stacker.register_plugin("rank", matrix_rank, description_en=description_en)
-    stacker.register_plugin("trace", matrix_trace, description_en=description_en)
-    stacker.register_plugin("ones", ones, description_en=description_en)
-    stacker.register_plugin("zeros", zeros, description_en=description_en)
-    stacker.register_plugin("diag", diag, description_en=description_en)
-    stacker.register_plugin("ndim", ndim, description_en=description_en)
-    stacker.register_plugin("size", size, description_en=description_en)
-    stacker.register_plugin("shape", shape, description_en=description_en)
+    stacker.register_plugin("+", matrix_add, desc=description_en)
+    stacker.register_plugin("-", matrix_sub, desc=description_en
+    stacker.register_plugin("*", matrix_mul, desc=description_en
+    stacker.register_plugin(".*", elementwise_mul, desc=description_en
+    stacker.register_plugin("./", elementwise_div, desc=description_en
+    stacker.register_plugin(".\\", elementwise_div_inv, desc=description_en
+    stacker.register_plugin("'", matrix_transpose, desc=description_en
+    stacker.register_plugin("inv", matrix_inverse, desc=description_en
+    stacker.register_plugin("det", matrix_determinant, desc=description_en
+    stacker.register_plugin("rank", matrix_rank, desc=description_en
+    stacker.register_plugin("trace", matrix_trace, desc=description_en
+    stacker.register_plugin("ones", ones, desc=description_en
+    stacker.register_plugin("zeros", zeros, desc=description_en
+    stacker.register_plugin("diag", diag, desc=description_en
+    stacker.register_plugin("ndim", ndim, desc=description_en
+    stacker.register_plugin("size", size, desc=description_en
+    stacker.register_plugin("shape", shape, desc=description_en
